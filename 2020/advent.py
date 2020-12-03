@@ -22,8 +22,9 @@ if __name__ == "__main__":
   
   try:
     solver = import_solver(args.day, args.part)
+    input = inputs.get_input(args.day)
     time_start = datetime.now()
-    output = solver.solve(inputs.get_input(args.day))
+    output = solver.solve(input)
     time_end = datetime.now()
     print_table([
       str(output),
