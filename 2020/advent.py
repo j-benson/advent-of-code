@@ -4,7 +4,7 @@ import argparse, importlib, inputs
 
 def import_solver(day, part):
   try:
-    return importlib.import_module(f'advent_{day.zfill(2)}_{part}')
+    return importlib.import_module(f'solvers.advent_{day.zfill(2)}_{part}')
   except ImportError:
     raise Exception(f'Cannot find solver for day {day} part {part}')
 
