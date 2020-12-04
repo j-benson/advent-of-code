@@ -35,6 +35,10 @@ def solve(input):
     file_test,
 f'''import {", ".join(module_solvers)}
 
+input = [
+  
+]
+
 def test_1():
   pass
 
