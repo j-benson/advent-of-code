@@ -47,6 +47,20 @@ def get_input(day):
   with open(filename) as data:
     return [ line.rstrip('\n') for line in data.readlines() ]
 
+def split_input(input, separator=''):
+  out = []
+  group = []
+  for line in input:
+    if line == separator:
+      out.append(group)
+      group = []
+    else:
+      group.append(line)
+  if len(group) > 0:
+    out.append(group)
+  return out
+
+
 def submit_answer(day, part, answer):
   session = login()
   payload = { 'level': str(part), 'answer': str(answer) }
