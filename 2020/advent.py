@@ -30,5 +30,6 @@ if __name__ == "__main__":
       str(output),
       f'solved in {str(time_end - time_start)}'
     ])
+    inputs.submit_answer(args.day, args.part, output)
   except Exception as e:
     print(str(e))

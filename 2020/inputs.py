@@ -1,4 +1,4 @@
-import requests, os, json
+import requests, os, json, re
 
 config_filename = '.adventofcode'
 
@@ -24,7 +24,7 @@ def login():
 def logout():
   config = load_config()
   config.pop('session', None)
-  update_config(config) 
+  update_config(config)
 
 def get_input(day):
   filename = f'inputs/advent_{str(day).zfill(2)}.txt'
@@ -46,3 +46,19 @@ def get_input(day):
 
   with open(filename) as data:
     return [ line.rstrip('\n') for line in data.readlines() ]
+
+def submit_answer(day, part, answer):
+  session = login()
+  payload = { 'level': str(part), 'answer': str(answer) }
+  res = requests.post(
+    f'https://adventofcode.com/2020/day/{day}/answer',
+    headers={
+      'cookie': f'session={session};'
+    },
+    data=payload
+  )
+  if res.status_code == 200:
+    if re.search(r'That\'s not the right answer.', res.text):
+      raise Exception('That\'s not the right answer.')
+  else:
+    raise Exception('Answer not submitted.')
