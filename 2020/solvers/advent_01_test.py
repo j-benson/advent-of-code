@@ -1,4 +1,5 @@
-import advent_01_1, advent_01_2
+import solvers.advent_01_1 as advent_01_1
+import solvers.advent_01_2 as advent_01_2
 
 input = [
     '1721',

@@ -1,9 +1,12 @@
 
+ROW_COUNT = 128
+COLUMN_COUNT = 8
+
 def solve(input):
   return max(map(lambda i: BoardingPass(i).seat_id, input))
 
 class BoardingPass:
-  def __init__(self, data, row_count=128, column_count=8):
+  def __init__(self, data, row_count=ROW_COUNT, column_count=COLUMN_COUNT):
     self.row = self._search(
       data = data[:7],
       low_char='F',
@@ -20,7 +23,7 @@ class BoardingPass:
       min_value=0,
       max_value=column_count
     )
-    self.seat_id = (self.row * 8) + self.column
+    self.seat_id = Seat(self.row, self.column).id
 
   def _search(self, data, low_char, high_char, i, min_value, max_value):
     if i == len(data) - 1:
@@ -39,3 +42,7 @@ class BoardingPass:
       return self._search(data, low_char, high_char, i + 1, mid_value, max_value)
     else:
       raise Exception(f'Expected {low_char} or {high_char} got {data[i]}')
+
+class Seat:
+  def __init__(self, row, column):
+    self.id = (row * 8) + column

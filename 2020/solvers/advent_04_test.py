@@ -1,4 +1,5 @@
-import advent_04_1, advent_04_2
+import solvers.advent_04_1 as advent_04_1
+import solvers.advent_04_2 as advent_04_2
 
 input = [
   'ecl:gry pid:860033327 eyr:2020 hcl:#fffffd',

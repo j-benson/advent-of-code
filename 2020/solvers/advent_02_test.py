@@ -1,4 +1,5 @@
-import advent_02_1, advent_02_2
+import solvers.advent_02_1 as advent_02_1
+import solvers.advent_02_2 as advent_02_2
 
 input = [
     '1-3 a: abcde',

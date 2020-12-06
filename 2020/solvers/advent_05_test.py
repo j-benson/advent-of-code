@@ -1,5 +1,6 @@
-import advent_05_1, advent_05_2
-from advent_05_1 import BoardingPass
+import solvers.advent_05_1 as advent_05_1
+import solvers.advent_05_2 as advent_05_2
+from solvers.advent_05_1 import BoardingPass
 
 input = [
   'FBFBBFFRLR',
@@ -20,6 +21,5 @@ def test_column():
 def test_seat_id():
   assert BoardingPass('FBFBBFFRLR').seat_id == 357
 
-def test_2():
-  pass
-
+# def test_2():
+#   assert advent_05_2.solve(inputs.get_input(5))

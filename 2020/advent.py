@@ -6,8 +6,8 @@ from datetime import datetime
 def import_solver(day, part):
   try:
     return importlib.import_module(f'solvers.advent_{day.zfill(2)}_{part}')
-  except ImportError:
-    raise Exception(f'Cannot find solver for day {day} part {part}')
+  except ImportError as e:
+    raise Exception(f'Cannot find solver for day {day} part {part}. Reason: {str(e)}')
 
 def print_table(lines):
   width = max(map(lambda line: len(line), lines))
@@ -32,4 +32,4 @@ if __name__ == "__main__":
     ])
     inputs.submit_answer(args.day, args.part, output)
   except Exception as e:
-    print(str(e))
+    print(f'{type(e).__name__}: {str(e)}')

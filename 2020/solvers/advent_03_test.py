@@ -1,4 +1,5 @@
-import advent_03_1, advent_03_2
+import solvers.advent_03_1 as advent_03_1
+import solvers.advent_03_2 as advent_03_2
 
 input = [
   '..##.......',

@@ -31,9 +31,10 @@ def solve(input):
 '''
     )
 
+  test_imports = '\n'.join([ f'import solvers.{m} as {m}' for m in module_solvers ])
   create_file(
     file_test,
-f'''import {", ".join(module_solvers)}
+f'''{test_imports}
 
 input = [
   
