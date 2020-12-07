@@ -18,6 +18,7 @@ if __name__ == "__main__":
   argp = argparse.ArgumentParser()
   argp.add_argument('day')
   argp.add_argument('--part', '-p', default='1')
+  argp.add_argument('--submit', '-s', action='store_true')
   args = argp.parse_args()
   
   try:
@@ -30,6 +31,8 @@ if __name__ == "__main__":
       str(output),
       f'solved in {str(time_end - time_start)}'
     ])
-    inputs.submit_answer(args.day, args.part, output)
+    if args.submit:
+      inputs.submit_answer(args.day, args.part, output)
+      print('⭐️')
   except Exception as e:
     print(f'{type(e).__name__}: {str(e)}')
