@@ -72,7 +72,12 @@ def submit_answer(day, part, answer):
     data=payload
   )
   if res.status_code == 200:
-    if re.search(r'That\'s not the right answer.', res.text):
+    if re.search(r'That\'s not the right answer', res.text):
       raise Exception('That\'s not the right answer.')
+    elif re.search('You gave an answer too recently', res.text):
+      msg = 'You gave an answer too recently.'
+      match = re.match(r'You have [0-9a-z ]* left to wait.?', res.text)
+      if match: msg += ' ' + match.group(0)
+      raise Exception(msg)
   else:
     raise Exception('Answer not submitted.')

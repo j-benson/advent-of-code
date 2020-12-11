@@ -22,11 +22,11 @@ def test_rule_bag():
 
 def test_rule_contains():
   assert Rule('light red bags contain 1 bright white bag, 2 muted yellow bags.').contains == {
-    'bright white',
-    'muted yellow'
+    'bright white': 1,
+    'muted yellow': 2
   }
   assert Rule('bright white bags contain 1 shiny gold bag.').contains == {
-    'shiny gold'
+    'shiny gold': 1
   }
 
 def test_rule_can_contain_bags():
@@ -39,6 +39,23 @@ def test_rule_can_contain_bag():
   assert Rule('light red bags contain 1 bright white bag, 2 muted yellow bags.').can_contain_bag('muted yellow') == True
   assert Rule('light red bags contain 1 bright white bag, 2 muted yellow bags.').can_contain_bag('shiny gold') == False
 
-def test_2():
-  pass
+input_2 = [
+    'shiny gold bags contain 2 dark red bags.',
+    'dark red bags contain 2 dark orange bags.',
+    'dark orange bags contain 2 dark yellow bags.',
+    'dark yellow bags contain 2 dark green bags.',
+    'dark green bags contain 2 dark blue bags.',
+    'dark blue bags contain 2 dark violet bags.',
+    'dark violet bags contain no other bags.',
+  ]
 
+def test_2():
+  assert advent_07_2.solve(input_2) == 126
+
+def test_2_1():
+  assert advent_07_2.solve(input) == 32
+
+def test_rule_number():
+  assert Rule('light red bags contain 1 bright white bag, 2 muted yellow bags.').number_of_bags() == 3
+  assert Rule('light red bags contain 1 bright white bag, 2 muted yellow bags.').number_of_bags('bright white') == 1
+  assert Rule('light red bags contain 1 bright white bag, 2 muted yellow bags.').number_of_bags('muted yellow') == 2
