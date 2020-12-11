@@ -17,5 +17,5 @@ def test_1():
   assert advent_08_1.solve(input) == 5
 
 def test_2():
-  pass
+  assert advent_08_2.solve(input) == 8
 
