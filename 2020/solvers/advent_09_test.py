@@ -28,5 +28,4 @@ def test_1():
   assert advent_09_1.solve(input, 5) == 127
 
 def test_2():
-  pass
-
+  assert advent_09_2.solve(input, 5, 127) == 62
