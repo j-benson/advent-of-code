@@ -11,7 +11,7 @@ input = [
   '11',
   '7',
   '19',
-  '6'
+  '6',
   '12',
   '4',
 ]
@@ -69,6 +69,8 @@ def test_adapter_voltages():
   a = Adapter('1')
   assert a.joltage == 1
 
-def test_2():
-  pass
+def test_2_input_1():
+  assert advent_10_2.solve(input) == 8
 
+def test_2():
+  assert advent_10_2.solve(input_2) == 19208
