@@ -13,7 +13,7 @@ public class Puzzle {
 
     public String fetchInput(Integer day) {
         try {
-            var session = new String(Files.readAllBytes(Path.of("session")));
+            var session = new String(Files.readAllBytes(Path.of(".session")));
             var res = Unirest.get("https://adventofcode.com/2021/day/%d/input".formatted(day))
                     .header("Cookie", "session=%s;".formatted(session))
                     .asString();
