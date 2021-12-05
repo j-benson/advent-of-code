@@ -7,25 +7,35 @@ import java.util.stream.Stream;
 public class Bingo {
     private final BingoHost bingoHost;
     private final List<BingoBoard> bingoBoards;
-    private BingoBoard winner;
+    private List<BingoBoard> winners;
 
     public Bingo(String data) {
         var elements = data.split("\n\n");
         bingoHost = new BingoHost(elements[0]);
-        bingoBoards = IntStream.range(1, elements.length).mapToObj(i -> new BingoBoard(elements[i])).toList();
+        bingoBoards = new ArrayList<>(IntStream.range(1, elements.length)
+                .mapToObj(i -> new BingoBoard(elements[i]))
+                .toList());
+        winners = new ArrayList<>(bingoBoards.size());
     }
     public int callAndMark() {
         var number = bingoHost.callNextNumber();
         bingoBoards.forEach(b -> b.mark(number));
-        var hasWinner = bingoBoards.stream().filter(BingoBoard::hasWon).findFirst();
-        hasWinner.ifPresent(w -> winner = w);
+        var winningBoards = bingoBoards.stream().filter(BingoBoard::hasWon).toList();
+        winners.addAll(winningBoards);
+        bingoBoards.removeAll(winningBoards);
         return number;
     }
     public boolean hasWinner() {
-        return winner != null;
+        return winners.size() > 0;
     }
     public BingoBoard getWinner() {
-        return winner;
+        return winners.get(0);
+    }
+    public boolean hasPlayers() {
+        return !bingoBoards.isEmpty();
+    }
+    public BingoBoard getLastWinner() {
+        return winners.get(winners.size() - 1);
     }
 
     @Override

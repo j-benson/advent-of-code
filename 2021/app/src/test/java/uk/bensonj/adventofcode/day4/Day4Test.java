@@ -23,5 +23,6 @@ class Day4Test {
 
     @Test
     void part2() {
+        assertEquals(1924, day4.part2(testPuzzle.fetchInput(4)));
     }
 }

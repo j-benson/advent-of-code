@@ -12,6 +12,12 @@ public class Day4 {
     }
 
     public int part2(String input) {
-        return 0;
+        var bingo = new Bingo(input);
+        var lastNumber = -1;
+        while (bingo.hasPlayers()) {
+            lastNumber = bingo.callAndMark();
+        }
+        var lastWinner = bingo.getLastWinner();
+        return lastWinner.unmarkedNumbersSum() * lastNumber;
     }
 }
