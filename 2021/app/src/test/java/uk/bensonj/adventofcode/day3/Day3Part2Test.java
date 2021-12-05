@@ -32,7 +32,6 @@ class Day3Part2Test {
                 "00010",
                 "01010"
         ));
-        assertEquals(23, result);
         assertEquals(230, result);
     }
 }
