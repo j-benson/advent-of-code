@@ -29,7 +29,7 @@ public class Puzzle {
             var res = Unirest.get("https://adventofcode.com/2021/day/%d/input".formatted(day))
                     .header("Cookie", "session=%s;".formatted(session))
                     .asString();
-            return res.getBody();
+            return res.getBody().trim();
         } catch (Exception e) {
             throw new NopeException(e);
         }
