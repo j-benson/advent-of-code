@@ -5,6 +5,7 @@ import uk.bensonj.adventofcode.NopeException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class Hydrothermal {
@@ -43,7 +44,12 @@ class Line {
         } else if (a.y == b.y) {
             return numbersBetweenInclusive(a.x, b.x).mapToObj(i -> new Point(i, a.y)).toList();
         } else {
-            throw new NopeException("This is probably a diagonal");
+            var lowXPoint = Math.min(a.x, b.x) == a.x ? a : b;
+            var highXPoint = lowXPoint == a ? b : a;
+            var direction = lowXPoint.y < highXPoint.y ? 1 : -1;
+            var y = new AtomicInteger(lowXPoint.y);
+            return numbersBetweenInclusive(lowXPoint.x, highXPoint.x)
+                    .mapToObj(x -> new Point(x, y.getAndUpdate(i -> i + direction))).toList();
         }
     }
     private IntStream numbersBetweenInclusive(int a, int b) {

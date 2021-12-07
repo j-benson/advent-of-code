@@ -16,6 +16,7 @@ public class Day5 {
     }
 
     public int part2() {
-        return 0;
+        var hydro = new Hydrothermal(input);
+        return hydro.dangerZones();
     }
 }

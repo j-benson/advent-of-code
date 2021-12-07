@@ -18,6 +18,6 @@ class Day5Test {
     }
 
     @Test public void part2() {
-        assertEquals(0, day5.part2());
+        assertEquals(12, day5.part2());
     }
 }
