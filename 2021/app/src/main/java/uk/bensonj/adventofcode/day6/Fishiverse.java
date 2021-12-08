@@ -1,12 +1,11 @@
 package uk.bensonj.adventofcode.day6;
 
 public class Fishiverse {
-    private static final int RESET = 6;
     private static final int NEW_FISH = 8;
-
-    private final int[] fish = new int[Integer.MAX_VALUE / 32];
-    private int size = 0;
-    private int days = 0;
+    private static final int PARENT_FISH = 6;
+    private static final int PREGGERS_FISH = 0;
+    private final long[] fish = new long[NEW_FISH + 1];
+    private int fishDealer = PREGGERS_FISH;
 
     public Fishiverse(int[] initialFish) {
         for (var f : initialFish) {
@@ -14,28 +13,38 @@ public class Fishiverse {
         }
     }
 
-    public int days() {
-        return days;
-    }
-
-    public int size() {
+    public long size() {
+        long size = 0;
+        for (long f : fish) {
+            size += f;
+        }
         return size;
     }
 
-    public void addFish(int value) {
-        fish[size++] = value;
+    public void addFish(int age) {
+        addFish(age, 1);
+    }
+    public void addFish(int age, long numberOfFish) {
+        fish[position(age)] += numberOfFish;
+    }
+    public long getFish(int age) {
+        return fish[position(age)];
+    }
+    public void removeFish(int age) {
+        fish[position(age)] = 0;
+    }
+    private int position(int value) {
+        return (value + fishDealer) % (NEW_FISH + 1);
+    }
+    private void moveFishDealerOn() {
+        fishDealer += 1;
     }
 
     public void goForthOneDay() {
-        days++;
-        var end = size;
-        for (int i = 0; i < end; i++) {
-            if (fish[i] == 0) {
-                fish[i] = RESET;
-                addFish(NEW_FISH);
-            } else {
-                fish[i] = fish[i] - 1;
-            }
-        }
+        var preggers = getFish(PREGGERS_FISH);
+        removeFish(PREGGERS_FISH);
+        moveFishDealerOn();
+        addFish(PARENT_FISH, preggers);
+        addFish(NEW_FISH, preggers);
     }
 }
