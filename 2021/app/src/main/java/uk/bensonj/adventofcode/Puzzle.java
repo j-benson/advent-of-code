@@ -56,31 +56,21 @@ public class Puzzle {
         } finally {
             try {
                 Files.writeString(Path.of("DEBUG.html"), res.getBody());
-            } catch (Exception e) {
-                throw new NopeException(e);
+            } catch (Exception ignored) {
             }
         }
     }
 }
 
 class Answer {
-    private static final Pattern YAY_PATTERN = Pattern.compile("That's the right answer!");
-    private static final Pattern SLOW_DOWN_BOI_PATTERN = Pattern.compile("You gave an answer too recently");
-    private static final Pattern WAIT_TIME_PATTERN = Pattern.compile("You have [0-9a-z ]* left to wait\\.?");
-
     public final boolean correct;
 
     public Answer(String data) {
-        var yay = YAY_PATTERN.matcher(data);
-        if (yay.matches()) {
-            correct = true;
-        } else {
-            correct = false;
-        }
+        correct = data.toLowerCase().contains("that's the right answer");
 
-        var wait = SLOW_DOWN_BOI_PATTERN.matcher(data);
+        var wait = Pattern.compile("You gave an answer too recently").matcher(data);
         if (wait.matches()) {
-            var waitTime = WAIT_TIME_PATTERN.matcher(data);
+            var waitTime = Pattern.compile("You have [0-9a-z ]* left to wait\\.?").matcher(data);
             throw new NopeException("⏳ %s\n%s".formatted(wait.group(0), waitTime.group(0)));
         }
     }
