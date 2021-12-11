@@ -36,10 +36,18 @@ public class Puzzle {
     }
 
     public String submit(int day, int part, int answer) {
+        return submit(day, part, String.valueOf(answer));
+    }
+
+    public String submit(int day, int part, long answer) {
+        return submit(day, part, String.valueOf(answer));
+    }
+
+    public String submit(int day, int part, String answer) {
         var res = Unirest.post("https://adventofcode.com/2021/day/%d/answer".formatted(day))
                 .header("Cookie", "session=%s;".formatted(session))
                 .header("Content-Type", "application/x-www-form-urlencoded")
-                .body("level=%s&answer=%s".formatted(String.valueOf(part), String.valueOf(answer)))
+                .body("level=%s&answer=%s".formatted(String.valueOf(part), answer))
                 .asString();
 
         try {
@@ -50,8 +58,10 @@ public class Puzzle {
             var ans = new Answer(res.getBody());
             if (ans.correct) {
                 return "⭐️";
+            } else if (!ans.message.isEmpty()) {
+                return "❌ " + ans.message;
             } else {
-                return "❌️";
+                return "❌";
             }
         } finally {
             try {
@@ -64,14 +74,24 @@ public class Puzzle {
 
 class Answer {
     public final boolean correct;
+    public String message = "";
 
     public Answer(String data) {
         correct = data.toLowerCase().contains("that's the right answer");
-
-        var wait = Pattern.compile("You gave an answer too recently").matcher(data);
-        if (wait.matches()) {
-            var waitTime = Pattern.compile("You have [0-9a-z ]* left to wait\\.?").matcher(data);
-            throw new NopeException("⏳ %s\n%s".formatted(wait.group(0), waitTime.group(0)));
+        if (!correct) {
+            var reason = Pattern.compile("your answer is[\\w\\s]+",
+                    Pattern.DOTALL & Pattern.CASE_INSENSITIVE).matcher(data);
+            if (reason.find()) {
+                message = reason.group(0);
+            }
+            var wait = Pattern.compile("you gave an answer too recently",
+                    Pattern.DOTALL & Pattern.CASE_INSENSITIVE).matcher(data);
+            if (wait.find()) {
+                var waitTime = Pattern.compile("you have [\\d\\w\\s]* left to wait",
+                        Pattern.DOTALL & Pattern.CASE_INSENSITIVE).matcher(data);
+                waitTime.find();
+                message = "⏳ %s\n%s".formatted(wait.group(0), waitTime.group(0));
+            }
         }
     }
 }

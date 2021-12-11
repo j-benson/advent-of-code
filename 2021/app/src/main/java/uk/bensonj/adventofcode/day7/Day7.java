@@ -11,11 +11,12 @@ public class Day7 {
     }
 
     public int part1() {
-        tinyCrabs.assemble();
+        tinyCrabs.assemble(false);
         return tinyCrabs.fuel();
     }
 
     public int part2() {
-        return 0;
+        tinyCrabs.assemble(true);
+        return tinyCrabs.fuel();
     }
 }
