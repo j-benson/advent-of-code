@@ -16,6 +16,9 @@ public class Day9 {
                 .sum();
     }
     public int part2() {
+        var lowPositions = IntStream.range(0, heightMap.size())
+                .filter(i -> heightMap.isLow(i)).boxed().toList();
+        var basinSizes = lowPositions.stream().map(position -> heightMap.discoverBasinSizeFromLowPoint(position)).toList();
         return 0;
     }
 }

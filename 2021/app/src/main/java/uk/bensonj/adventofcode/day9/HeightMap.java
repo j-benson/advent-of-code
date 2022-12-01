@@ -1,5 +1,6 @@
 package uk.bensonj.adventofcode.day9;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -14,34 +15,73 @@ public class HeightMap {
     }
 
     public boolean isLow(int position) {
-        return value(position) < above(position)
-                && value(position) < below(position)
-                && value(position) < left(position)
-                && value(position) < right(position);
+        return value(position) < valueAbove(position)
+                && value(position) < valueBelow(position)
+                && value(position) < valueLeft(position)
+                && value(position) < valueRight(position);
+    }
+
+    public int discoverBasinSizeFromLowPoint(int lowPosition) {
+        return higherGround(lowPosition);
+    }
+    private int higherGround(int position) {
+        if (value(position) == 9) {
+            return 0;
+        }
+        var highGround = new ArrayList<Integer>();
+        if (valueAbove(position) > value(position)) {
+            highGround.add(positionAbove(position));
+        }
+        if (valueBelow(position) > value(position)) {
+            highGround.add(positionBelow(position));
+        }
+        if (valueLeft(position) > value(position)) {
+            highGround.add(positionLeft(position));
+        }
+        if (valueRight(position) > value(position)) {
+            highGround.add(positionRight(position));
+        }
+        return highGround.stream().mapToInt(this::higherGround).sum() + 1;
     }
 
     public int value(int position) {
-        return heightData.get(position);
+        return valueBoundaryWall(position);
     }
 
-    private int above(int position) {
-        return ignoreBoundary(position - width);
+    private int valueAbove(int position) {
+        return valueBoundaryWall(positionAbove(position));
     }
 
-    private int ignoreBoundary(int p) {
-        return p >= 0 && p < heightData.size() ? heightData.get(p) : Integer.MAX_VALUE;
+    private int valueBoundaryWall(int p) {
+        return p >= 0 && p < p % width && p < heightData.size() ? heightData.get(p) : 9;
     }
 
-    private int below(int position) {
-        return ignoreBoundary(position + width);
+    private int positionAbove(int position) {
+        return position - width;
     }
 
-    private int left(int position) {
-        return ignoreBoundary(position - 1);
+    private int valueBelow(int position) {
+        return valueBoundaryWall(positionBelow(position));
     }
 
-    private int right(int position) {
-        return ignoreBoundary(position + 1);
+    private int positionBelow(int position) {
+        return position + width;
+    }
+
+    private int valueLeft(int position) {
+        return valueBoundaryWall(positionLeft(position));
+    }
+
+    private int positionLeft(int position) {
+        return position - 1;
+    }
+
+    private int valueRight(int position) {
+        return valueBoundaryWall(positionRight(position));
+    }
+
+    private int positionRight(int position) {
+        return position + 1;
     }
 
     public int size() {
