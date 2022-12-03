@@ -4,33 +4,54 @@ import sys, input
 
 class Move:
   def __init__(self, value) -> None:
-    self.ROCK = [ 'A', 'X' ]
-    self.PAPER = [ 'B', 'Y' ]
-    self.SCISSOR = [ 'C', 'Z' ]
+    self.ROCK = 'A'
+    self.PAPER = 'B'
+    self.SCISSOR = 'C'
+    self.WIN = 'Z'
+    self.DRAW = 'Y'
+    self.LOSE = 'X'
     self.opponent, self.my = value.split(' ')
 
-  def is_draw(self) -> bool:
-    return (self.my in self.ROCK and self.opponent in self.ROCK) \
-      or (self.my in self.PAPER and self.opponent in self.PAPER) \
-      or (self.my in self.SCISSOR and self.opponent in self.SCISSOR)
+  def win(self) -> str:
+    if self.opponent == self.ROCK:
+      return self.PAPER
+    if self.opponent == self.PAPER:
+      return self.SCISSOR
+    if self.opponent == self.SCISSOR:
+      return self.ROCK
   
-  def is_win(self) -> bool:
-    return (self.my in self.ROCK and self.opponent in self.SCISSOR) \
-      or (self.my in self.PAPER and self.opponent in self.ROCK) \
-      or (self.my in self.SCISSOR and self.opponent in self.PAPER)
+  def draw(self) -> str:
+    return self.opponent
+
+  def lose(self) -> str:
+    if self.opponent == self.ROCK:
+      return self.SCISSOR
+    if self.opponent == self.PAPER:
+      return self.ROCK
+    if self.opponent == self.SCISSOR:
+      return self.PAPER
+
+  def my_move(self) -> str:
+    if self.my == self.WIN:
+      return self.win()
+    if self.my == self.DRAW:
+      return self.draw()
+    return self.lose()
+
+  def score_value(self, move) -> int:
+    if move == 'A':
+      return 1
+    if move == 'B':
+      return 2
+    if move == 'C':
+      return 3
 
   def score(self) -> int:
-    score = 0
-    if self.my in self.ROCK:
-      score += 1
-    elif self.my in self.PAPER:
-      score += 2
-    elif self.my in self.SCISSOR:
-      score += 3
+    score = self.score_value(self.my_move())
     
-    if (self.is_win()):
+    if (self.my == self.WIN):
       score += 6
-    elif (self.is_draw()):
+    elif (self.my == self.DRAW):
       score += 3
 
     return score
@@ -39,23 +60,16 @@ def test_move():
   m = Move('A Y')
   assert m.opponent == 'A'
   assert m.my == 'Y'
-  assert m.is_win() == True
-  assert m.is_draw() == False
-  assert m.score() == 8
+  assert m.win() == 'B'
+  assert m.lose() == 'C'
+  assert m.draw() == 'A'
+  assert m.score() == 4
 
   m = Move('B X')
-  assert m.is_win() == False
-  assert m.is_draw() == False
   assert m.score() == 1
 
   m = Move('C Z')
-  assert m.is_win() == False
-  assert m.is_draw() == True
-  assert m.score() == 6
-
-class Strategy:
-  def __init__(self, value) -> None:
-    self.moves = [ Move(m) for m in value ]
+  assert m.score() == 7
 
 if __name__ == '__main__':
   moves = [Move(m) for m in input.to_list(sys.stdin.readlines())]
