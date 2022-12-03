@@ -1,4 +1,4 @@
-from day3 import Rucksack, Item
+from day3 import Rucksack, Item, Group
 
 def test_rucksack():
   r = Rucksack('vJrwpWtwJgWrhcsFMMfFFhFp')
@@ -33,3 +33,16 @@ def test_item():
   assert i.priority() == 27
   i = Item('Z')
   assert i.priority() == 52
+
+def test_group():
+  g = Group()
+  g.add_rucksack(Rucksack('vJrwpWtwJgWrhcsFMMfFFhFp'))
+  g.add_rucksack(Rucksack('jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL'))
+  g.add_rucksack(Rucksack('PmmdzqPrVvPwwTWBwg'))
+  assert g.find_badge_item().value == 'r'
+
+  g = Group()
+  g.add_rucksack(Rucksack('wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn'))
+  g.add_rucksack(Rucksack('ttgJtRGJQctTZtZT'))
+  g.add_rucksack(Rucksack('CrZsJsPPZsGzwwsLwLmpwMDw'))
+  assert g.find_badge_item().value == 'Z'
