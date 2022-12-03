@@ -3,4 +3,4 @@
 import input
 
 if __name__ == '__main__':
-  pass
+  lines = input.as_list()

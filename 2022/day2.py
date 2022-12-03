@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, input
+import input
 
 class Move:
   def __init__(self, value) -> None:
@@ -72,5 +72,5 @@ def test_move():
   assert m.score() == 7
 
 if __name__ == '__main__':
-  moves = [Move(m) for m in input.to_list(sys.stdin.readlines())]
+  moves = [Move(m) for m in input.as_list()]
   print(sum(map(lambda m: m.score(), moves)))

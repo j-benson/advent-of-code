@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
 
-import argparse, os, requests
+import argparse, os, requests, sys
 import session
 
 YEAR = '2022'
 
-def to_list(lines):
+def as_list(lines = None):
+  if lines is None:
+    lines = sys.stdin.readlines()
   return [ line.rstrip('\n') for line in lines ]
 
-def get_input_lines(day, year = YEAR):
-  raw_input = get_input_raw(day, year)
-  return to_list(raw_input)
-
-def get_input_raw(day, year = YEAR):
+def get_input(day, year = YEAR):
   os.makedirs('inputs', exist_ok=True)
   filename = f'inputs/{day.zfill(2)}.txt'
   
@@ -35,9 +33,17 @@ def get_input_raw(day, year = YEAR):
 
 if __name__ == '__main__':
   ap = argparse.ArgumentParser()
-  ap.add_argument('-d', '--day', required=True)
+  group = ap.add_mutually_exclusive_group(required=True)
+  group.add_argument('-d', '--day')
   ap.add_argument('-y', '--year', default=YEAR)
+  group.add_argument('-f', '--file')
   args = ap.parse_args()
-  lines = get_input_raw(args.day, args.year)
+
+  if args.file is not None:
+    with open(args.file) as data:
+      lines = data.readlines()
+  else:
+    lines = get_input(args.day, args.year)
+  
   for line in lines:
     print(line, end='')

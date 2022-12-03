@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, input
+import input
 
 class Rucksack:
   def __init__(self, contents) -> None:
@@ -51,7 +51,7 @@ class Group:
     raise Exception('badge not found')
 
 if __name__ == '__main__':
-  sacks = [ Rucksack(l) for l in input.to_list(sys.stdin.readlines()) ]
+  sacks = [ Rucksack(l) for l in input.as_list() ]
   error_items = map(lambda r: r.find_error_items()[0], sacks)
   priorities = map(lambda i: i.priority(), error_items)
   print(sum(priorities))
