@@ -12,6 +12,10 @@ class AssignmentPair:
   def has_full_assignment_overlap(self):
     largest, other = self._sort_by_size()
     return largest.set.issuperset(other.set)
+
+  def has_partial_assignment_overlap(self):
+    largest, other = self._sort_by_size()
+    return len(largest.set.intersection(other.set)) > 0
     
 class Assignment:
   def __init__(self, assignment) -> None:
@@ -24,5 +28,9 @@ class Assignment:
 if __name__ == '__main__':
   lines = input.as_list()
   pairs = [ AssignmentPair(l) for l in lines ]
-  assigment_overlaps = map(lambda p: 1 if p.has_full_assignment_overlap() else 0, pairs)
-  print(sum(assigment_overlaps))
+
+  full_overlaps = map(lambda p: 1 if p.has_full_assignment_overlap() else 0, pairs)
+  print(sum(full_overlaps))
+
+  partial_overlaps = map(lambda p: 1 if p.has_partial_assignment_overlap() else 0, pairs)
+  print(sum(partial_overlaps))
