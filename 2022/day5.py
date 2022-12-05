@@ -21,7 +21,7 @@ class SupplyStacks:
     self.stacks = dict()
   
   def set_stack(self, id, crates):
-    self.stacks[id] = crates
+    self.stacks[id] = list(crates)
   
   def __setitem__(self, id, crates) -> None:
     self.set_stack(id, crates)
@@ -53,15 +53,15 @@ if __name__ == '__main__':
   procedures = [ Procedure(p) for p in lines[lines.index('') + 1:] ]
 
   stacks = SupplyStacks()
-  stacks[1] = [ 'S', 'T', 'H', 'F', 'W', 'R' ]
-  stacks[2] = [ 'S', 'G', 'D', 'Q', 'W' ]
-  stacks[3] = [ 'B', 'T', 'W'  ]
-  stacks[4] = [ 'D', 'R', 'W', 'T', 'N', 'Q', 'Z', 'J'  ]
-  stacks[5] = [ 'F', 'B', 'H', 'G', 'L', 'V', 'T', 'Z' ]
-  stacks[6] = [ 'L', 'P', 'T', 'C', 'V', 'B', 'S', 'G' ]
-  stacks[7] = [ 'Z', 'B', 'R', 'T', 'W', 'G', 'P' ]
-  stacks[8] = [ 'N', 'G', 'M', 'T', 'C', 'J', 'R' ]
-  stacks[9] = [ 'L', 'G', 'B', 'W' ]
+  stacks[1] = 'STHFWR'
+  stacks[2] = 'SGDQW'
+  stacks[3] = 'BTW'
+  stacks[4] = 'DRWTNQZJ'
+  stacks[5] = 'FBHGLVTZ'
+  stacks[6] = 'LPTCVBSG'
+  stacks[7] = 'ZBRTWGP'
+  stacks[8] = 'NGMTCJR'
+  stacks[9] = 'LGBW'
 
   stacks.rearrange_all(procedures)
   print(stacks.top_crates())

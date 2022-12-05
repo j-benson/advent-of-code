@@ -2,9 +2,9 @@ from day5 import SupplyStacks,Procedure
 
 def test_supply_stack():
   stacks = SupplyStacks()
-  stacks[1] = [ 'Z', 'N' ]
-  stacks[2] = [ 'M', 'C', 'D' ]
-  stacks[3] = [ 'P' ]
+  stacks[1] = 'ZN'
+  stacks[2] = 'MCD'
+  stacks[3] = 'P'
 
   stacks.rearrange(Procedure('move 1 from 2 to 1'))
   assert [ 'Z', 'N', 'D' ] == stacks[1]
