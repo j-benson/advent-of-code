@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 
+from collections import defaultdict
 import input, re
+
+class StackReader:
+  def __init__(self) -> None:
+    self.stacks = defaultdict(list)
+  
+  def readline(self, line):
+    for i in range(1, 10):
+      crate = line[4*i - 3]
+      if crate != ' ':
+        self.stacks[i].insert(0, crate)
 
 class Procedure:
   pattern = re.compile('move ([0-9]+) from ([0-9]) to ([0-9])')
@@ -17,14 +28,8 @@ class Procedure:
     return f'Procedure(move_crates={self.move_crates},from_stack={self.from_stack},to_stack={self.to_stack})'
 
 class SupplyStacks:
-  def __init__(self) -> None:
-    self.stacks = dict()
-  
-  def set_stack(self, id, crates):
-    self.stacks[id] = list(crates)
-  
-  def __setitem__(self, id, crates) -> None:
-    self.set_stack(id, crates)
+  def __init__(self, stacks) -> None:
+    self.stacks = stacks
 
   def get_stack(self, id):
     return self.stacks[id]
@@ -44,24 +49,19 @@ class SupplyStacks:
 
   def top_crates(self):
     top = ''
-    for id in self.stacks:
+    for id in sorted(self.stacks):
       top += self.stacks[id][-1]
     return top
 
 if __name__ == '__main__':
   lines = input.as_list()
+
+  stack_reader = StackReader()
+  for l in lines[:lines.index('') - 1]:
+    stack_reader.readline(l)
   procedures = [ Procedure(p) for p in lines[lines.index('') + 1:] ]
 
-  stacks = SupplyStacks()
-  stacks[1] = 'STHFWR'
-  stacks[2] = 'SGDQW'
-  stacks[3] = 'BTW'
-  stacks[4] = 'DRWTNQZJ'
-  stacks[5] = 'FBHGLVTZ'
-  stacks[6] = 'LPTCVBSG'
-  stacks[7] = 'ZBRTWGP'
-  stacks[8] = 'NGMTCJR'
-  stacks[9] = 'LGBW'
+  stacks = SupplyStacks(stack_reader.stacks)
 
   stacks.rearrange_all(procedures)
   print(stacks.top_crates())

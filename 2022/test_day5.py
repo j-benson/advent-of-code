@@ -1,10 +1,21 @@
-from day5 import SupplyStacks,Procedure
+from day5 import StackReader, SupplyStacks, Procedure
+
+def test_stack_reader():
+  r = StackReader()
+  r.readline('            [J] [Z] [G]            ')
+  r.readline('[S] [S] [B] [D] [F] [L] [Z] [N] [L]')
+  assert [ 'S' ] == r.stacks[1]
+  assert [ 'S' ] == r.stacks[2]
+  assert [ 'D', 'J' ] == r.stacks[4]
+  assert [ 'L', 'G' ] == r.stacks[6]
+  assert [ 'L' ] == r.stacks[9]
 
 def test_supply_stack():
-  stacks = SupplyStacks()
-  stacks[1] = 'ZN'
-  stacks[2] = 'MCD'
-  stacks[3] = 'P'
+  stacks = SupplyStacks({
+    1: [ 'Z', 'N' ],
+    2: [ 'M', 'C', 'D' ],
+    3: [ 'P' ]
+  })
 
   stacks.rearrange(Procedure('move 1 from 2 to 1'))
   assert [ 'Z', 'N', 'D' ] == stacks[1]
