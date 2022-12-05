@@ -14,19 +14,19 @@ def test_supply_stack():
   stacks.rearrange(Procedure('move 3 from 1 to 3'))
   assert [ ] == stacks[1]
   assert [ 'M', 'C' ] == stacks[2]
-  assert [ 'P', 'D', 'N', 'Z' ] == stacks[3]
+  assert [ 'P', 'Z', 'N', 'D' ] == stacks[3]
 
   stacks.rearrange(Procedure('move 2 from 2 to 1'))
-  assert [ 'C', 'M' ] == stacks[1]
+  assert [ 'M', 'C' ] == stacks[1]
   assert [ ] == stacks[2]
-  assert [ 'P', 'D', 'N', 'Z' ] == stacks[3]
+  assert [ 'P', 'Z', 'N', 'D' ] == stacks[3]
 
   stacks.rearrange(Procedure('move 1 from 1 to 2'))
-  assert [ 'C' ] == stacks[1]
-  assert [ 'M' ] == stacks[2]
-  assert [ 'P', 'D', 'N', 'Z' ] == stacks[3]
+  assert [ 'M' ] == stacks[1]
+  assert [ 'C' ] == stacks[2]
+  assert [ 'P', 'Z', 'N', 'D' ] == stacks[3]
 
-  assert 'CMZ' == stacks.top_crates()
+  assert 'MCD' == stacks.top_crates()
 
 def test_procedure():
   procedure = Procedure('move 1 from 2 to 3')

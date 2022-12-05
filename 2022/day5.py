@@ -37,15 +37,10 @@ class SupplyStacks:
       self.rearrange(p)
 
   def rearrange(self, procedure: Procedure):
-    try:
-      for i in range(procedure.move_crates):
-        self._move_crate(procedure.from_stack, procedure.to_stack)
-    except Exception as e:
-      raise Exception('failed to move crates: {procedure}')
-
-  def _move_crate(self, from_stack, to_stack):
-    crate = self.stacks[from_stack].pop()
-    self.stacks[to_stack].append(crate)
+    load = self.stacks[procedure.from_stack][-procedure.move_crates:]
+    self.stacks[procedure.from_stack] = self.stacks[procedure.from_stack][:-procedure.move_crates]
+    for crate in load:
+      self.stacks[procedure.to_stack].append(crate)
 
   def top_crates(self):
     top = ''
